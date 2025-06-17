@@ -1,0 +1,13 @@
+[project]
+name = "data-processing-sample"
+version = "0.1.0"
+description = "Processes data"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "celery>=5.5.3",
+    "flask>=3.1.1",
+    "flask-cors>=6.0.1",
+    "pillow>=11.2.1",
+    "redis>=6.2.0",
+]

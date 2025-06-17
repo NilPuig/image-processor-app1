@@ -1,0 +1,73 @@
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Python virtual environments
+venv/
+.venv/
+env/
+ENV/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Python package files
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Flask/Celery instance and cache files
+instance/
+*.db
+*.sqlite3
+celerybeat-schedule
+celerybeat.pid
+
+# Pytest and coverage
+htmlcov/
+.coverage
+.cache
+.pytest_cache/
+.tox/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Environment variables and secrets
+.env
+.env.*
+*.env
+
+# Frontend (Node/React)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build/
+dist/
+coverage/
+*.tsbuildinfo
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Uploads and processed images (if not tracked)
+uploads/
+media/
+*.bak
+*.tmp
+
+# MacOS and Linux files
+.DS_Store
+*.swp
+*.swo
+
+# Miscellaneous
+*.orig
+*.pid
+
