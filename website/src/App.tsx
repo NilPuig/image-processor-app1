@@ -7,9 +7,21 @@ function App() {
   const [heavy, setHeavy] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
-  const [taskId, setTaskId] = useState<string | null>(null);
 const [error, setError] = useState<string | null>(null);
 
+// const [gallery, setGallery] = useState<string[]>([]);
+// const [showGallery, setShowGallery] = useState(false);
+
+// const fetchGallery = async () => {
+//   try {
+//     const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
+//     const res = await fetch(`${API_URL}/gallery`);
+//     const data = await res.json();
+//     setGallery(data.images);
+//   } catch (err: any) {
+//     setError(err.message || 'Failed to fetch gallery');
+//   }
+// };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,7 +50,7 @@ const [error, setError] = useState<string | null>(null);
     if (heavy) formData.append('heavy', 'true');
   
     try {
-      const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5001';
+      const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5000';
       const response = await fetch(API_URL + '/process', {
         method: 'POST',
         body: formData,
@@ -48,7 +60,6 @@ const [error, setError] = useState<string | null>(null);
   
       const data = await response.json();
       if (!data.task_id) throw new Error('No task ID returned');
-      setTaskId(data.task_id);
   
       // Start polling for result
       pollForResult(data.task_id, API_URL);
@@ -83,30 +94,90 @@ const [error, setError] = useState<string | null>(null);
   
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <input type="file" onChange={handleFileChange} />
-        <label>
-          <input type="checkbox" checked={light} onChange={handleLightChange} />
+    <div className="app-bg">
+    <div className="app-card">
+      <h1 className="app-title">Image Processor</h1>
+      <div>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="input-file"
+        />
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={light}
+            onChange={handleLightChange}
+            className="checkbox-input"
+          />
           Light
         </label>
-        <label>
-          <input type="checkbox" checked={heavy} onChange={handleHeavyChange} />
+        <label className="checkbox-label">
+          <input
+            type="checkbox"
+            checked={heavy}
+            onChange={handleHeavyChange}
+            className="checkbox-input"
+          />
           Heavy
         </label>
-        <button disabled={isLoading} onClick={handleSubmit}>
-          {isLoading ? 'Processing...' : 'Upload & Process'}
-        </button>
-        {isLoading && <div>Processing your image, please wait...</div>}
-        {error && <div style={{ color: 'red' }}>{error}</div>}
-        {resultUrl && (
-          <div style={{ marginTop: 20 }}>
-            <h3>Processed Image:</h3>
-            <img src={resultUrl} alt="Processed" style={{ maxWidth: '100%' }} />
+      </div>
+      <button
+        disabled={isLoading}
+        onClick={handleSubmit}
+        className="button-main"
+      >
+        {isLoading ? 'Processing...' : 'Upload & Process'}
+      </button>
+      {isLoading && (
+        <div className="status-message processing">Processing your image, please wait...</div>
+      )}
+      {error && (
+        <div className="status-message error">{error}</div>
+      )}
+      {resultUrl && (
+        <div className="processed-image-section">
+          <h3 className="processed-image-title">Processed Image:</h3>
+          <img
+            src={resultUrl}
+            alt="Processed"
+            className="processed-image"
+          />
+        </div>
+      )}
+      {/* <button
+        onClick={() => {
+          setShowGallery(!showGallery);
+          if (!gallery.length) fetchGallery();
+        }}
+        className="button-gallery"
+      >
+        {showGallery ? 'Hide Gallery' : 'Show Gallery'}
+      </button> */}
+      {/* {showGallery && (
+        <div className="gallery-section">
+          <h3 className="gallery-title">Gallery</h3>
+          <div className="gallery-grid">
+            {gallery.length > 0 ? (
+              gallery.map((imgUrl, idx) => (
+                <img
+                  key={idx}
+                  src={imgUrl}
+                  alt={`Processed ${idx}`}
+                  className="gallery-image"
+                />
+              ))
+            ) : (
+              <div className="gallery-empty">No images yet.</div>
+            )}
           </div>
-        )}
-      </header>
+        </div>
+      )} */}
     </div>
+  </div>
+  
   );
 }
 
